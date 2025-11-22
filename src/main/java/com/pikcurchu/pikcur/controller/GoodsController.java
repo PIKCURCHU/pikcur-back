@@ -102,7 +102,7 @@ public class GoodsController {
     @Operation(summary = "상품 등록", description = "경매 상품 등록")
     @PostMapping
     public ResponseEntity<Void> insertGoods(@RequestPart("goodsData") ReqGoodsDto reqGoodsDto,
-                                            @RequestPart("images") List<MultipartFile> images, HttpServletRequest request) {
+                                            @RequestPart("image") List<MultipartFile> images, HttpServletRequest request) {
 
         Integer memberNo = (Integer) request.getAttribute("memberNo");
         Integer goodsId = goodsService.insertGoods(reqGoodsDto, memberNo);

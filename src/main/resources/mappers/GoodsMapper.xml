@@ -4,141 +4,130 @@
 <mapper namespace="com.pikcurchu.pikcur.mapper.GoodsMapper">
     <select id="findPopularGoodsList" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
-        g.goods_id,
-        g.category_id,
-        g.brand_id,
-        g.goods_name,
-        g.buyout_price,
-        g.start_price,
-        g.auction_end_date,
-        g.create_date,
-        COALESCE(b.bidCount, 0) AS bidCount,
-        CASE
-        WHEN #{memberNo} IS NULL THEN FALSE
-        WHEN glMember.goods_like_id IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS isLiked,
-        sm.status_name
+            i.image_path,
+            g.goods_id,
+            g.category_id,
+            g.brand_id,
+            g.goods_name,
+            g.buyout_price,
+            g.start_price,
+            g.auction_end_date,
+            g.create_date,
+            COUNT(b.goods_id) as bidCount,
+            case
+            WHEN #{memberNo} IS NULL THEN FALSE
+            when gl.goods_like_id is not null then true
+            ELSE FALSE
+            END AS isLiked,
+            g.gender,
+            g.status_no
         FROM goods g
-        LEFT JOIN (
-        SELECT goods_id, COUNT(*) AS bidCount
-        FROM bid
-        GROUP BY goods_id
-        ) b ON g.goods_id = b.goods_id
-        LEFT JOIN (
-        SELECT goods_id, goods_like_id
-        FROM goods_like
-        WHERE member_no = #{memberNo}
-        ) glMember ON g.goods_id = glMember.goods_id
-        LEFT JOIN Status_master sm
-        ON g.status_type = sm.status_type
-        AND g.status_no = sm.status_no
-        LEFT JOIN (
-        SELECT goods_id, COUNT(*) AS likeCount
-        FROM goods_like
-        GROUP BY goods_id
-        ) glCount ON g.goods_id = glCount.goods_id
+        left join
+            image i on g.goods_id = i.goods_id AND i.sort = 1
+        left join
+            bid b on g.goods_id = b.goods_id
+        left join
+            goods_like gl on gl.goods_id = g.goods_id
+            and gl.member_no = #{memberNo}
+        GROUP BY
+            g.goods_id
         ORDER BY
-        COALESCE(glCount.likeCount, 0) DESC,
-        g.create_date DESC
+            bidCount DESC,
+            g.create_date DESC
         limit 8;
     </select>
     <select id="findRecentViewGoodsList" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
-        g.goods_id,
-        g.category_id,
-        g.brand_id,
-        g.goods_name,
-        g.buyout_price,
-        g.start_price,
-        g.auction_end_date,
-        g.create_date,
-        COALESCE(b.bidCount, 0) AS bidCount,
-        CASE
-        WHEN #{memberNo} IS NULL THEN FALSE
-        WHEN glMember.goods_like_id IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS isLiked,
-        sm.status_name
+            i.image_path,
+            g.goods_id,
+            g.category_id,
+            g.brand_id,
+            g.goods_name,
+            g.buyout_price,
+            g.start_price,
+            g.auction_end_date,
+            g.create_date,
+            COUNT(b.goods_id) as bidCount,
+            CASE
+            WHEN #{memberNo} IS NULL THEN FALSE
+            when gl.goods_like_id is not null then true
+            ELSE FALSE
+            END AS isLiked,
+            g.gender,
+            g.status_no
         FROM goods g
-        LEFT JOIN (
-        SELECT goods_id, COUNT(*) AS bidCount
-        FROM bid
-        GROUP BY goods_id
-        ) b ON g.goods_id = b.goods_id
-        LEFT JOIN (
-        SELECT goods_id, goods_like_id
-        FROM goods_like
-        WHERE member_no = #{memberNo}
-        ) glMember ON g.goods_id = glMember.goods_id
-        LEFT JOIN Status_master sm
-        ON g.status_type = sm.status_type
-        AND g.status_no = sm.status_no
+        left join
+            image i on g.goods_id = i.goods_id AND i.sort = 1
+        left join
+            bid b on g.goods_id = b.goods_id
+        left join
+            goods_like gl on gl.goods_id = g.goods_id
+            and gl.member_no =#{memberNo}
         INNER JOIN (
-        SELECT goods_id, MAX(create_date) AS last_view
-        FROM goods_history
-        WHERE member_no = #{memberNo}
-        GROUP BY goods_id
+            SELECT goods_id, goods_history_id, MAX(create_date) AS last_view
+            FROM goods_history
+            WHERE member_no =#{memberNo}
+            GROUP BY goods_id
         ) gh ON g.goods_id = gh.goods_id
-        ORDER BY gh.goods_id DESC
+        group by g.goods_id
+        ORDER BY gh.goods_history_id DESC
         limit 8;
+
 
     </select>
     <select id="findGoodsByAuctionEndAsc" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
-        g.goods_id,
-        g.category_id,
-        g.brand_id,
-        g.goods_name,
-        g.buyout_price,
-        g.start_price,
-        g.auction_end_date,
-        g.create_date,
-        COALESCE(b.bidCount, 0) AS bidCount,
-        CASE
-        WHEN #{memberNo} IS NULL THEN FALSE
-        WHEN glMember.goods_like_id IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS isLiked,
-        sm.status_name
+            i.image_path,
+            g.goods_id,
+            g.category_id,
+            g.brand_id,
+            g.goods_name,
+            g.buyout_price,
+            g.start_price,
+            g.auction_end_date,
+            g.create_date,
+            COUNT(b.goods_id) as bidCount,
+            case
+            WHEN #{memberNo} IS NULL THEN FALSE
+            when gl.goods_like_id is not null then true
+            ELSE FALSE
+            END AS isLiked,
+            g.gender,
+            g.status_no
         FROM goods g
-        LEFT JOIN (
-        SELECT goods_id, COUNT(*) AS bidCount
-        FROM bid
-        GROUP BY goods_id
-        ) b ON g.goods_id = b.goods_id
-        LEFT JOIN (
-        SELECT goods_id, goods_like_id
-        FROM goods_like
-        WHERE member_no = #{memberNo}
-        ) glMember ON g.goods_id = glMember.goods_id
-        LEFT JOIN Status_master sm
-        ON g.status_type = sm.status_type
-        AND g.status_no = sm.status_no
+        left join
+            image i on g.goods_id = i.goods_id AND i.sort = 1
+        left join
+            bid b on g.goods_id = b.goods_id
+        left join
+            goods_like gl on gl.goods_id = g.goods_id
+            and gl.member_no = #{memberNo}
+        group by g.goods_id
         order by
-        g.auction_end_date asc,
-        g.create_date desc
+            g.auction_end_date asc,
+            g.create_date desc
         limit 8;
     </select>
     <select id="findCategories" resultMap="categoryResultMap">
         SELECT
-        p.category_id AS parent_id,
-        p.category_name AS parent_name,
-        c.category_id AS child_id,
-        c.category_name AS child_name
+            p.category_id AS parent_id,
+            p.category_name AS parent_name,
+            c.category_id AS child_id,
+            c.category_name AS child_name
         FROM
-        category p
+            category p
         LEFT JOIN
-        category c
+            category c
         ON
-        p.category_id = c.parents_id
+            p.category_id = c.parents_id
         WHERE
-        p.parents_id IS NULL
+            p.parents_id IS NULL
         ORDER BY
-        p.category_id;
+            p.category_id;
     </select>
     <select id="findGoodsListByCategoryId" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
+        i.image_path,
         g.goods_id,
         g.category_id,
         g.brand_id,
@@ -147,30 +136,27 @@
         g.start_price,
         g.auction_end_date,
         g.create_date,
-        COALESCE(b.bidCount, 0) AS bidCount,
-        CASE
+        MAX(b.bid_price) as bidPrice,
+        COUNT(b.goods_id) as bidCount,
+        case
         WHEN #{memberNo} IS NULL THEN FALSE
-        WHEN glMember.goods_like_id IS NOT NULL THEN TRUE
-        ELSE FALSE
-        END AS isLiked,
-        sm.status_name
-        FROM goods g
-        LEFT JOIN (
-        SELECT goods_id, COUNT(*) AS bidCount
-        FROM bid
-        GROUP BY goods_id
-        ) b ON g.goods_id = b.goods_id
-        LEFT JOIN (
-        SELECT goods_id, goods_like_id
-        FROM goods_like
-        WHERE member_no = #{memberNo}
-        ) glMember ON g.goods_id = glMember.goods_id
-        LEFT JOIN Status_master sm
-        ON g.status_type = sm.status_type
-        AND g.status_no = sm.status_no
+        when gl.goods_like_id is not null then true
+        else false
+        end as isLiked,
+        g.gender,
+        g.status_no
+        from goods g
+        left join
+        image i on g.goods_id = i.goods_id AND i.sort = 1
+        left join
+        bid b on g.goods_id = b.goods_id
+        left join
+        goods_like gl on gl.goods_id = g.goods_id
+        and gl.member_no = #{memberNo}
         where g.category_id = #{categoryId}
-        order by
-        g.create_date desc
+        GROUP BY
+        g.goods_id
+        order by g.create_date desc
         LIMIT #{limit} OFFSET #{offset};
     </select>
     <select id="findGoodsDetailById" resultMap="GoodsDetailResultMap">
@@ -198,12 +184,6 @@
     g.size,
     sm.status_name,
     g.goods_info,
-
-    -- 이미지 리스트
-    (SELECT GROUP_CONCAT(i.image_path ORDER BY i.sort)
-     FROM image i
-     WHERE i.goods_id = g.goods_id
-    ) AS image_list,
 
     -- 카테고리 경로
     (SELECT GROUP_CONCAT(cp.category_name ORDER BY cp.lvl ASC)
@@ -363,9 +343,6 @@
         <result property="statusName" column="status_name"/>
         <result property="goodsInfo" column="goods_info"/>
         <result property="isLiked" column="is_liked"/>
-
-        <!-- 이미지 리스트 (comma separated -> List<String>) -->
-        <result property="imageList" column="image_list"/>
 
         <!-- 카테고리 경로 (comma separated -> List<String>) -->
         <result property="categoryPath" column="category_path"/>

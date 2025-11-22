@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class ResGoodsDetailDto {
-    private String imageList;
+    private List<String> imageList;
     private String categoryPath;
     private String goodsName;
     private Integer goodsId;

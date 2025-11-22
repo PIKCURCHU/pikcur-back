@@ -70,4 +70,10 @@
         from goods g
         where g.brand_id = #{brandId};
     </select>
+    <select id="selectBrandList" resultType="com.pikcurchu.pikcur.dto.response.ResBrandListDto">
+        select
+        brand_id,
+        brand_name
+        from brand;
+    </select>
 </mapper>
