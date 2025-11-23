@@ -199,6 +199,7 @@
     </select>
     <select id="findBidById" resultType="com.pikcurchu.pikcur.dto.response.ResBidItemDto">
         select
+        g.goods_id,
         b.bid_id,
         g.goods_name,
         b.bid_price,
@@ -219,6 +220,7 @@
     </select>
     <select id="findWinBidById" resultType="com.pikcurchu.pikcur.dto.response.ResBidItemDto">
         select
+        g.goods_id,
         b.bid_id,
         g.goods_name,
         b.bid_price,
@@ -241,6 +243,7 @@
     </select>
     <select id="findGoodsLikeById" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
+        i.image_path,
         g.goods_id,
         g.category_id,
         g.brand_id,
@@ -254,24 +257,17 @@
         when gl.goods_like_id is not null then true
         else false
         end as isLiked,
-        sm.status_name
+        g.gender,
+        g.status_no
         from goods_like gl
         join
         goods g on g.goods_id = gl.goods_id and gl.member_no = (SELECT member_no FROM store where store_id = #{storeId})
         left join
+        image i on g.goods_id = i.goods_id AND i.sort = 1
+        left join
         bid b on g.goods_id = b.goods_id
-        join
-        Status_master sm ON g.status_no = sm.status_no AND g.status_type = sm.status_type
         GROUP BY
-        g.goods_id,
-        g.category_id,
-        g.brand_id,
-        g.goods_name,
-        g.buyout_price,
-        g.start_price,
-        g.auction_end_date,
-        g.create_date,
-        sm.status_name
+        g.goods_id
         order by gl.create_date desc
         LIMIT #{limit} OFFSET #{offset};
     </select>

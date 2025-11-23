@@ -62,6 +62,7 @@ public class GoodsService {
 
     public ResGoodsDetailDto selectGoodsDetailById(Integer goodsId, Integer memberNo) {
         ResGoodsDetailDto goodsDetail = goodsMapper.findGoodsDetailById(goodsId, memberNo);
+        goodsDetail.setImageList(imageMapper.findGoodsImages(goodsId));
 
         if(memberNo != null) {
             goodsMapper.insertGoodsHistory(goodsId, memberNo);

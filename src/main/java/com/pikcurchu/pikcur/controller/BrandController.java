@@ -1,8 +1,6 @@
 package com.pikcurchu.pikcur.controller;
 
-import com.pikcurchu.pikcur.dto.response.ResBrandDetailDto;
-import com.pikcurchu.pikcur.dto.response.ResGoodsItemDto;
-import com.pikcurchu.pikcur.dto.response.ResGoodsPageDto;
+import com.pikcurchu.pikcur.dto.response.*;
 import com.pikcurchu.pikcur.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +26,14 @@ public class BrandController {
         ResBrandDetailDto brandDetail = brandService.selectBrandDetail(brandId, memberNo);
         return new ResponseEntity<>(brandDetail, HttpStatus.OK);
     }
+
+    @Operation(summary = "브랜드 리스트 조회", description = "등록되어있는 브랜드 리스트 조회")
+    @GetMapping("/list")
+    public ResponseEntity<List<ResBrandListDto>> selectBrandList() {
+        List<ResBrandListDto> brandList = brandService.selectBrandList();
+        return new ResponseEntity<>(brandList, HttpStatus.OK);
+    }
+
     @Operation(summary = "브랜드 상품 조회", description = "브랜드 아이디를 통한 해당 상품 리스트 조회")
     @GetMapping("/{brandId}/goods")
     public ResponseEntity<ResGoodsPageDto> selectBrandGoodsList(@PathVariable Integer brandId, HttpServletRequest request, @RequestParam int currentPage) {

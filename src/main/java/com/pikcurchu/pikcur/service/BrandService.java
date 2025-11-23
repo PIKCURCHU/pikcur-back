@@ -1,6 +1,7 @@
 package com.pikcurchu.pikcur.service;
 
 import com.pikcurchu.pikcur.dto.response.ResBrandDetailDto;
+import com.pikcurchu.pikcur.dto.response.ResBrandListDto;
 import com.pikcurchu.pikcur.dto.response.ResGoodsItemDto;
 import com.pikcurchu.pikcur.dto.response.ResGoodsPageDto;
 import com.pikcurchu.pikcur.mapper.BrandMapper;
@@ -50,5 +51,9 @@ public class BrandService {
 
     public void deleteBrandLike(Integer brandId, Integer memberNo) {
         brandMapper.deleteBrandLike(brandId, memberNo);
+    }
+
+    public List<ResBrandListDto> selectBrandList() {
+        return brandMapper.selectBrandList();
     }
 }

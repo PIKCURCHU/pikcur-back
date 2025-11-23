@@ -45,7 +45,9 @@ public class JwtFilterConfig {
                 "/store/block/*",
                 "/store/report/*",
                 "/alarm",
-                "/payment/info"
+                "/payment/info",
+                "/payment/buyout/*",
+                "/payment/verify"
         );
         registration.setOrder(1);
         return registration;

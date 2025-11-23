@@ -5,4 +5,9 @@
     <insert id="insertGoodsImage">
         insert into Image(goods_id, image_path, sort) values(#{goodsId}, #{imageUrl}, #{sort})
     </insert>
+    <select id="findGoodsImages">
+        select image_path
+        from image
+        where goods_id = #{goodsId}
+    </select>
 </mapper>

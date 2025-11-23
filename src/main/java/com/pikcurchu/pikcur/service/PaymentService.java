@@ -75,4 +75,8 @@ public class PaymentService {
     public ResPaymentAddressDto selectPaymentAddress(Integer memberNo, Integer bidId) {
         return paymentMapper.selectPaymentAddress(memberNo, bidId);
     }
+
+    public ResPaymentAddressDto selectBuyoutPaymentAddress(Integer memberNo, Integer goodsId) {
+        return paymentMapper.selectBuyoutPaymentAddress(memberNo, goodsId);
+    }
 }

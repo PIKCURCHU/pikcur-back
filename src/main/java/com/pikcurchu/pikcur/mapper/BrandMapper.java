@@ -1,6 +1,7 @@
 package com.pikcurchu.pikcur.mapper;
 
 import com.pikcurchu.pikcur.dto.response.ResBrandDetailDto;
+import com.pikcurchu.pikcur.dto.response.ResBrandListDto;
 import com.pikcurchu.pikcur.dto.response.ResGoodsItemDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,4 +21,6 @@ public interface BrandMapper {
     int countBrandGoodsByBrandId(Integer brandId);
 
     Integer selectBrandGoodsCount(Integer brandId);
+
+    List<ResBrandListDto> selectBrandList();
 }
