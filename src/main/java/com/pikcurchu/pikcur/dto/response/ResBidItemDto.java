@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class ResBidItemDto {
+    private Integer goodsId;
     private Integer bidId;
     private String goodsName;
     private Integer bidPrice;

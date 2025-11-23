@@ -9,4 +9,6 @@ public interface PaymentMapper {
     void insertPayment(Payment payment);
 
     ResPaymentAddressDto selectPaymentAddress(Integer memberNo, Integer bidId);
+
+    ResPaymentAddressDto selectBuyoutPaymentAddress(Integer memberNo, Integer goodsId);
 }

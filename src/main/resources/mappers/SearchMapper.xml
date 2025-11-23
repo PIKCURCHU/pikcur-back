@@ -4,7 +4,8 @@
 <mapper namespace="com.pikcurchu.pikcur.mapper.SearchMapper">
     <select id="selectSearchGoodsList" resultType="com.pikcurchu.pikcur.dto.response.ResGoodsItemDto">
         SELECT
-            g.goods_id
+            i.image_path
+        ,   g.goods_id
         ,   g.category_id
         ,   g.brand_id
         ,   g.gender
@@ -22,6 +23,8 @@
         ,   sm.status_name
         FROM
             goods g
+        left join
+            image i on g.goods_id = i.goods_id AND i.sort = 1
         JOIN
             brand b
         ON  g.brand_id = b.brand_id

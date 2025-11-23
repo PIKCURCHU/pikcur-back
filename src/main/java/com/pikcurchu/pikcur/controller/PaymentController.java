@@ -42,12 +42,22 @@ public class PaymentController {
         }
     }
 
-    @Operation(summary = "결제 전 정보 주소정보 조회", description = "결제 전 정보 주소정보조회 API")
+    @Operation(summary = "낙찰 결제 전 정보 주소정보 조회", description = "낙찰 결제 전 정보 주소정보 조회 API")
     @GetMapping("/info")
     public ResponseEntity<ResPaymentAddressDto> selectPaymentAddress(HttpServletRequest request, @RequestParam Integer bidId) {
         Integer memberNo = (Integer) request.getAttribute("memberNo");
 
         ResPaymentAddressDto response = paymentService.selectPaymentAddress(memberNo, bidId);
+
+        return new ResponseEntity<ResPaymentAddressDto>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "즉시 결제 전 정보 주소정보 조회", description = "즉시 결제 전 정보 주소정보조회 API")
+    @GetMapping("/buyout/{goodsId}")
+    public ResponseEntity<ResPaymentAddressDto> selectBuyoutPaymentAddress(HttpServletRequest request, @PathVariable Integer goodsId) {
+        Integer memberNo = (Integer) request.getAttribute("memberNo");
+
+        ResPaymentAddressDto response = paymentService.selectBuyoutPaymentAddress(memberNo, goodsId);
 
         return new ResponseEntity<ResPaymentAddressDto>(response, HttpStatus.OK);
     }

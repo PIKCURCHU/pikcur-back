@@ -199,6 +199,7 @@
     </select>
     <select id="findBidById" resultType="com.pikcurchu.pikcur.dto.response.ResBidItemDto">
         select
+        g.goods_id,
         b.bid_id,
         g.goods_name,
         b.bid_price,
@@ -219,6 +220,7 @@
     </select>
     <select id="findWinBidById" resultType="com.pikcurchu.pikcur.dto.response.ResBidItemDto">
         select
+        g.goods_id,
         b.bid_id,
         g.goods_name,
         b.bid_price,

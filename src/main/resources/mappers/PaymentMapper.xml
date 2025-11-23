@@ -29,4 +29,21 @@
         AND b.status_no = '03';
     </select>
 
+    <select id="selectBuyoutPaymentAddress" resultType="com.pikcurchu.pikcur.dto.response.ResPaymentAddressDto">
+        SELECT
+        (g.buyout_price + g.shipping_price) AS payPrice,
+        a.name AS receiver,
+        a.phone,
+        a.address,
+        a.address_detail AS addressDetail
+        FROM
+        goods g
+        LEFT JOIN
+        address a
+        ON  a.member_no = #{memberNo}
+        where
+        a.is_default = 'Y'
+        AND a.member_no = #{memberNo}
+        and g.goods_id=#{goodsId}
+    </select>
 </mapper>
