@@ -69,7 +69,8 @@ Controller (REST API)
 
 ## ☁️ 인프라 구조
 
-<img width="3044" height="1776" alt="image" src="https://github.com/user-attachments/assets/5fe135b5-e1f6-45f3-81f0-bd7147b84332" />
+<img width="3044" height="1776" alt="image" src="https://github.com/user-attachments/assets/c71f5cb3-c431-4d2a-8a8c-28bf53bbbda9" />
+
 
 - Nginx EC2: React 정적 파일 서빙 + API Reverse Proxy
 - Spring Boot EC2: 비즈니스 로직 처리
