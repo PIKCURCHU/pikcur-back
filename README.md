@@ -78,6 +78,7 @@ Controller (REST API)
 - Redis: TTL 기반 임시 상태 저장소 (이메일 인증 코드 관리 및 DB 부하 감소 목적)
 - S3 + CloudFront: 이미지 스토리지 및 CDN
 - Security Group 기반 내부망 통신 구조 설계 (역할별 접근 제어 및 외부 공격 표면 최소화)
+- 외부 API(IAMPORT, SweetTracker) 통신
 
 ---
 
